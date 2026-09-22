@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NEO AI Coaching — Practical, Plain-English AI Coaching for Work and Everyday Life</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #24333F;
+    --ink-soft: #4A5A68;
+    --paper: #FBF8F0;
+    --paper-warm: #F5EEDC;
+    --line: #DDD2B0;
+    --teal: #3E5C76;
+    --teal-deep: #2A425A;
+    --clay: #C9932E;
+    --clay-deep: #A6741E;
+    --sand: #EFE6CE;
+    --focus: #1E5F92;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    box-sizing: border-box;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); scroll-behavior: smooth; }
+  html, body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); }
+  body { font-family: "Source Sans 3", -apple-system, "Segoe UI", sans-serif; font-size: 19px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  h1, h2, h3 { font-family: "Source Serif 4", Georgia, serif; font-weight: 600; color: var(--ink); margin: 0; line-height: 1.15; }
+  p { margin: 0; }
+  a { color: inherit; }
+  img, svg { max-width: 100%; display: block; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 28px; }
+  a:focus-visible, button:focus-visible, [tabindex]:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+
+  header { position: sticky; top: 0; top: env(safe-area-inset-top, 0px); z-index: 50; background: var(--paper); border-bottom: 1px solid var(--line); }
+  .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 28px; max-width: 1120px; margin: 0 auto; flex-wrap: wrap; }
+  .logo-block { display: flex; flex-direction: column; }
+  .logo { font-family: "Source Serif 4", serif; font-weight: 700; font-size: 25px; color: var(--teal-deep); text-decoration: none; white-space: nowrap; }
+  .logo-tag { font-size: 13px; color: var(--ink-soft); font-weight: 600; letter-spacing: 0.02em; }
+  nav.main-nav { display: none; gap: 26px; font-size: 16px; font-weight: 600; }
+  nav.main-nav a { text-decoration: none; color: var(--ink-soft); }
+  nav.main-nav a:hover { color: var(--teal-deep); }
+  @media (min-width: 860px) { nav.main-nav { display: flex; } }
+  .header-right { display: flex; align-items: center; gap: 14px; }
+  .phone-link { display: none; text-decoration: none; font-weight: 600; color: var(--ink); font-size: 17px; white-space: nowrap; }
+  .phone-link .num { color: var(--teal-deep); }
+  @media (min-width: 720px) { .phone-link { display: inline-block; } }
+  .btn { display: inline-block; font-family: "Source Sans 3", sans-serif; font-weight: 700; font-size: 17px; text-decoration: none; padding: 13px 22px; border-radius: 8px; border: 2px solid transparent; cursor: pointer; white-space: nowrap; }
+  .btn-primary { background: var(--clay); color: #FFF8EE; }
+  .btn-primary:hover { background: var(--clay-deep); }
+  .btn-quiet { background: transparent; border-color: var(--teal); color: var(--teal-deep); }
+  .btn-quiet:hover { background: var(--sand); }
+
+  .lang-toggle { display: inline-flex; border: 2px solid var(--teal); border-radius: 999px; overflow: hidden; }
+  .lang-toggle button { font-family: "Source Sans 3", sans-serif; font-weight: 700; font-size: 15px; padding: 8px 14px; border: none; background: transparent; color: var(--teal-deep); cursor: pointer; }
+  .lang-toggle button.active { background: var(--teal); color: #FFFFFF; }
+
+  .bilingual-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--sand); color: var(--teal-deep); font-weight: 700; font-size: 15px; padding: 8px 14px; border-radius: 999px; margin-top: 6px; }
+
+  .hero { padding: 56px 0 52px; }
+  #matrixCanvas { position: fixed; inset: 0; width: 100vw; height: 100vh; opacity: 0.22; pointer-events: none; z-index: 999; }
+  .hero-grid { display: grid; grid-template-columns: 1fr; gap: 40px; align-items: center; }
+  @media (min-width: 900px) { .hero-grid { grid-template-columns: 1.05fr 0.95fr; gap: 56px; } }
+  .hero h1 { font-size: clamp(32px, 4.6vw, 48px); max-width: 17ch; }
+  .hero-sub { margin-top: 20px; font-size: 20px; color: var(--ink-soft); max-width: 48ch; }
+  .hero-ctas { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
+  .hero-note { margin-top: 18px; }
+  .hero-art { background: var(--sand); border-radius: 20px; padding: 20px; }
+
+  section { padding: 60px 0; }
+  .section-band { background: var(--paper-warm); }
+  .section-head { max-width: 60ch; margin-bottom: 38px; }
+  .section-head h2 { font-size: clamp(27px, 3.2vw, 34px); }
+  .section-head p { margin-top: 12px; font-size: 18.5px; color: var(--ink-soft); }
+
+  .pillars { display: grid; grid-template-columns: 1fr; gap: 30px; }
+  @media (min-width: 780px) { .pillars { grid-template-columns: repeat(3, 1fr); } }
+  .pillar { border-top: 3px solid var(--teal); padding-top: 16px; }
+  .pillar h3 { font-size: 20px; margin-bottom: 8px; }
+  .pillar p { color: var(--ink-soft); font-size: 17px; }
+
+  .audiences { display: grid; grid-template-columns: 1fr; gap: 28px; }
+  @media (min-width: 720px) { .audiences { grid-template-columns: repeat(2, 1fr); } }
+  .audience-card { background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 30px; }
+  .audience-card .age { font-family: "Source Serif 4", serif; font-size: 15px; font-weight: 600; color: var(--clay); margin-bottom: 6px; }
+  .audience-card h3 { font-size: 22px; margin-bottom: 12px; }
+  .audience-card ul { margin: 0; padding-left: 20px; color: var(--ink-soft); font-size: 17px; }
+  .audience-card li { margin-bottom: 6px; }
+
+  .pricing { display: grid; grid-template-columns: 1fr; gap: 26px; }
+  @media (min-width: 900px) { .pricing { grid-template-columns: repeat(3, 1fr); } }
+  .pricing.two-up { max-width: 780px; margin: 0 auto; }
+  @media (min-width: 720px) { .pricing.two-up { grid-template-columns: repeat(2, 1fr); } }
+  .plan { border: 1px solid var(--line); border-radius: 16px; padding: 30px; background: var(--paper); display: flex; flex-direction: column; }
+  .plan.featured { border-color: var(--teal); background: #FFFFFF; box-shadow: 0 0 0 1px var(--teal); }
+  .plan h3 { font-size: 21px; }
+  .plan .price { font-family: "Source Serif 4", serif; font-size: 32px; margin-top: 12px; color: var(--teal-deep); }
+  .plan .price span { font-size: 15.5px; color: var(--ink-soft); font-family: "Source Sans 3", sans-serif; }
+  .plan .alt-price { margin-top: 4px; font-size: 15.5px; color: var(--ink-soft); }
+  .plan ul { list-style: none; padding: 0; margin: 18px 0 0; font-size: 16.5px; color: var(--ink-soft); flex-grow: 1; }
+  .plan li { padding: 7px 0; border-top: 1px solid var(--line); }
+  .plan li:first-child { border-top: none; }
+  .plan .btn { margin-top: 22px; width: 100%; text-align: center; }
+  .tax-note { margin-top: 30px; font-size: 16px; color: var(--ink-soft); border-left: 3px solid var(--clay); padding-left: 16px; }
+
+  .trust-list { display: grid; grid-template-columns: 1fr; gap: 2px; background: var(--line); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+  @media (min-width: 720px) { .trust-list { grid-template-columns: repeat(2, 1fr); } }
+  .trust-item { background: var(--paper); padding: 26px 28px; }
+  .trust-item h3 { font-size: 19px; margin-bottom: 8px; color: var(--teal-deep); }
+  .trust-item p { color: var(--ink-soft); font-size: 17px; }
+
+  .about-grid { display: grid; grid-template-columns: 1fr; gap: 40px; align-items: start; }
+  @media (min-width: 860px) { .about-grid { grid-template-columns: 0.9fr 1.1fr; } }
+  .about-photo { border-radius: 16px; }
+  .about-text p { color: var(--ink-soft); font-size: 18.5px; margin-bottom: 16px; }
+  .guarantee { margin-top: 20px; background: var(--sand); border-radius: 12px; padding: 20px 24px; }
+  .guarantee p { color: var(--ink); font-size: 17.5px; margin: 0; }
+
+  .testimonials { display: grid; grid-template-columns: 1fr; gap: 30px; }
+  @media (min-width: 780px) { .testimonials { grid-template-columns: repeat(3, 1fr); } }
+  .testimonial blockquote { margin: 0; font-family: "Source Serif 4", serif; font-size: 20px; line-height: 1.45; color: var(--ink); }
+  .testimonial cite { display: block; margin-top: 14px; font-style: normal; font-size: 15.5px; color: var(--ink-soft); }
+
+  .faq { max-width: 780px; }
+  details { border-top: 1px solid var(--line); padding: 18px 0; }
+  details:last-child { border-bottom: 1px solid var(--line); }
+  summary { cursor: pointer; font-family: "Source Serif 4", serif; font-size: 19.5px; font-weight: 600; list-style: none; display: flex; justify-content: space-between; gap: 20px; align-items: baseline; }
+  summary::-webkit-details-marker { display: none; }
+  summary .icon { font-family: "Source Sans 3", sans-serif; font-weight: 700; color: var(--teal); font-size: 22px; flex-shrink: 0; }
+  details[open] summary .icon { color: var(--clay); }
+  .faq p { margin-top: 12px; color: var(--ink-soft); font-size: 17.5px; max-width: 64ch; }
+
+  .contact-grid { display: grid; grid-template-columns: 1fr; gap: 44px; }
+  @media (min-width: 900px) { .contact-grid { grid-template-columns: 0.9fr 1.1fr; } }
+  .contact-info h3 { font-size: 22px; margin-bottom: 14px; }
+  .contact-info p { color: var(--ink-soft); font-size: 17.5px; margin-bottom: 10px; }
+  .contact-info .big-phone { font-family: "Source Serif 4", serif; font-size: 26px; color: var(--teal-deep); text-decoration: none; display: inline-block; margin-top: 6px; }
+
+  form.booking { background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 30px; }
+  .field { margin-bottom: 18px; }
+  .field label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 16.5px; }
+  .field input, .field select, .field textarea { width: 100%; font-family: "Source Sans 3", sans-serif; font-size: 17px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; background: #FFFFFF; color: var(--ink); }
+  .field textarea { resize: vertical; min-height: 90px; }
+  .radio-row { display: flex; gap: 20px; flex-wrap: wrap; }
+  .radio-row label { display: flex; align-items: center; gap: 8px; font-weight: 500; }
+  .radio-row input { width: auto; }
+  form.booking .btn { width: 100%; text-align: center; margin-top: 6px; }
+
+  .closing { text-align: center; padding: 64px 0; }
+  .closing h2 { font-size: clamp(27px, 3.8vw, 36px); max-width: 26ch; margin: 0 auto; }
+  .closing p { margin: 16px auto 0; color: var(--ink-soft); font-size: 18.5px; max-width: 50ch; }
+  .closing .hero-ctas { justify-content: center; margin-top: 28px; }
+
+  footer { background: var(--teal-deep); color: #EFEAD9; padding: 44px 0 30px; }
+  .footer-grid { display: grid; grid-template-columns: 1fr; gap: 30px; }
+  @media (min-width: 720px) { .footer-grid { grid-template-columns: 1.3fr 1fr 1fr; } }
+  footer .logo-foot { font-family: "Source Serif 4", serif; font-weight: 700; font-size: 23px; color: #FFFFFF; }
+  footer p { color: #CFE0DA; margin-top: 10px; font-size: 16.5px; }
+  footer h4 { font-family: "Source Sans 3", sans-serif; font-size: 15px; font-weight: 700; color: #FFFFFF; margin-bottom: 14px; }
+  footer .big-phone { font-family: "Source Serif 4", serif; font-size: 26px; color: #FFFFFF; text-decoration: none; }
+  footer ul { list-style: none; padding: 0; margin: 0; }
+  footer li { margin-bottom: 10px; font-size: 16.5px; }
+  footer a { text-decoration: none; color: #CFE0DA; }
+  footer a:hover { color: #FFFFFF; }
+  .footer-bottom { margin-top: 36px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,0.15); font-size: 14.5px; color: #AFC6BE; }
+
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+<canvas id="matrixCanvas" aria-hidden="true"></canvas>
+
+<header>
+  <div class="header-inner">
+    <div class="logo-block">
+      <a class="logo" href="#top">NEO AI Coaching</a>
+      <span class="logo-tag" data-i18n="logoTag">AI Coaching, Montreal &amp; Online</span>
+    </div>
+    <nav class="main-nav">
+      <a href="#home" data-i18n="navHome">Home</a>
+      <a href="#services" data-i18n="navServices">Services &amp; Pricing</a>
+      <a href="#about" data-i18n="navAbout">About &amp; Contact</a>
+    </nav>
+    <div class="header-right">
+      <a class="phone-link" href="tel:+15145550143"><span data-i18n="phoneLabel">Call:</span> <span class="num">(514) 555-0143</span></a>
+      <a class="btn btn-primary" href="#book" data-i18n="headerCta">Free 15-Min Call</a>
+      <div class="lang-toggle" role="group" aria-label="Language">
+        <button type="button" id="langEnBtn" class="active">EN</button>
+        <button type="button" id="langFrBtn">FR</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ===================== PAGE 1: HOME ===================== -->
+  <section class="hero" id="home">
+    <div class="wrap hero-grid">
+      <div>
+        <h1 data-i18n="heroH1">Practical, plain-English AI coaching for work and everyday life.</h1>
+        <p class="hero-sub" data-i18n="heroSub">Patient, 1-on-1 guidance designed for everyone — in Montreal &amp; online — led by a licensed engineer you can trust. Master tools like ChatGPT, Claude, Gemini, and Copilot safely and confidently.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="#book" data-i18n="ctaPrimary">Book a Free 15-Minute Consultation</a>
+          <a class="btn btn-quiet" href="tel:+15145550143" data-i18n="ctaCallPhone">Call (514) 555-0143</a>
+        </div>
+        <div class="hero-note" style="display:flex; flex-wrap:wrap; gap:10px;">
+          <span class="bilingual-badge">🍁 <span data-i18n="badgeBilingual">Services fully offered in English &amp; Français</span></span>
+          <span class="bilingual-badge">🎓 <span data-i18n="badgeEngineer">Taught by a licensed engineer</span></span>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <svg viewBox="0 0 480 380" xmlns="http://www.w3.org/2000/svg">
+          <rect x="0" y="0" width="480" height="380" rx="14" fill="#EFE6CE"/>
+          <rect x="40" y="240" width="400" height="18" rx="9" fill="#DDD2B0"/>
+          <circle cx="150" cy="150" r="62" fill="#F5EEDC" stroke="#3E5C76" stroke-width="3"/>
+          <circle cx="150" cy="130" r="26" fill="#3E5C76"/>
+          <path d="M100 200 Q150 165 200 200 L200 240 L100 240 Z" fill="#3E5C76"/>
+          <rect x="255" y="120" width="150" height="110" rx="10" fill="#FFFFFF" stroke="#A6741E" stroke-width="3"/>
+          <rect x="270" y="138" width="120" height="10" rx="5" fill="#EFE6CE"/>
+          <rect x="270" y="158" width="90" height="10" rx="5" fill="#EFE6CE"/>
+          <circle cx="330" cy="205" r="18" fill="#C9932E"/>
+          <path d="M255 230 Q330 195 405 230" stroke="#C9932E" stroke-width="3" fill="none"/>
+          <path d="M212 165 Q234 155 254 165" stroke="#A6741E" stroke-width="3" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-band">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 data-i18n="pillarsHeading">Three reasons clients start with us</h2>
+      </div>
+      <div class="pillars">
+        <div class="pillar">
+          <h3 data-i18n="pillar1Title">Workplace upskilling</h3>
+          <p data-i18n="pillar1Text">Automate emails, summarize complex documents, and save hours every week — without needing an IT background.</p>
+        </div>
+        <div class="pillar">
+          <h3 data-i18n="pillar2Title">Personal convenience</h3>
+          <p data-i18n="pillar2Text">Plan vacations, organize projects, and simplify daily admin using tools that used to feel out of reach.</p>
+        </div>
+        <div class="pillar">
+          <h3 data-i18n="pillar3Title">Safety &amp; privacy first</h3>
+          <p data-i18n="pillar3Text">Learn how to protect your personal data, adjust privacy settings, and avoid online scams — before anything else.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="who">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 data-i18n="whoHeading">Built around two kinds of clients</h2>
+        <p data-i18n="whoSub">Whether you're still working or fully retired, the coaching adapts to what matters to you.</p>
+      </div>
+      <div class="audiences">
+        <div class="audience-card">
+          <div class="age" data-i18n="audience1Tag">FOR THE WORKPLACE</div>
+          <h3 data-i18n="audience1Title">Working professionals &amp; business owners</h3>
+          <ul>
+            <li data-i18n="audience1Li1">Career preservation and staying current</li>
+            <li data-i18n="audience1Li2">Reducing workload with email &amp; report automation</li>
+            <li data-i18n="audience1Li3">Document summarization</li>
+            <li data-i18n="audience1Li4">Tools: ChatGPT, Claude, Gemini, Microsoft Copilot</li>
+          </ul>
+        </div>
+        <div class="audience-card">
+          <div class="age" data-i18n="audience2Tag">FOR EVERYDAY LIFE</div>
+          <h3 data-i18n="audience2Title">Active adults &amp; retirees</h3>
+          <ul>
+            <li data-i18n="audience2Li1">Personal convenience and daily admin</li>
+            <li data-i18n="audience2Li2">Travel planning and creative hobbies</li>
+            <li data-i18n="audience2Li3">Privacy settings and scam protection, above all</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PAGE 2: SERVICES & PRICING ===================== -->
+  <section class="section-band" id="services">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 data-i18n="servicesHeading">Services &amp; pricing</h2>
+        <p data-i18n="servicesSub">Clear, outcome-based packages — never open-ended, confusing hourly lessons. Every package includes personalized prompt cheat sheets, a post-session summary, and ongoing email support.</p>
+      </div>
+      <div class="pricing two-up">
+        <div class="plan">
+          <h3 data-i18n="plan1Title">Workplace Productivity Fast-Track</h3>
+          <p class="price">$120 CAD <span data-i18n="perHour">/ hour</span></p>
+          <p class="alt-price" data-i18n="plan1Alt">or 3-session starter package: $325 CAD</p>
+          <ul>
+            <li data-i18n="plan1Li1">Email drafting</li>
+            <li data-i18n="plan1Li2">Multi-page PDF summarization</li>
+            <li data-i18n="plan1Li3">Meeting agenda creation</li>
+            <li data-i18n="plan1Li4">Basic workflow automation</li>
+            <li data-i18n="plan1Li5">Report writing</li>
+            <li data-i18n="plan1Li6">1-on-1, Zoom or in-person</li>
+          </ul>
+          <a class="btn btn-quiet" href="#book" data-i18n="bookPackage">Book this package</a>
+        </div>
+        <div class="plan featured">
+          <h3 data-i18n="plan2Title">Everyday AI for Personal Life &amp; Safety</h3>
+          <p class="price">$75 CAD <span data-i18n="perHour">/ hour</span></p>
+          <p class="alt-price" data-i18n="plan2Alt">or 3-session starter package: $200 CAD</p>
+          <ul>
+            <li data-i18n="plan2Li1">Detailed vacation itinerary creation</li>
+            <li data-i18n="plan2Li2">Letter writing</li>
+            <li data-i18n="plan2Li3">Medical &amp; financial document summarization</li>
+            <li data-i18n="plan2Li4">Hobby assistance</li>
+            <li data-i18n="plan2Li5">Privacy &amp; Scam Protection 101 (included every time)</li>
+            <li data-i18n="plan2Li6">1-on-1, in-home in Montreal or Zoom</li>
+          </ul>
+          <a class="btn btn-primary" href="#book" data-i18n="bookPackage">Book this package</a>
+        </div>
+      </div>
+      <p class="tax-note" data-i18n="taxNote">Corporate tax note: upskilling and consulting expenses are generally tax-deductible for corporate accounts and sole proprietors. Ask us for a receipt formatted for your accountant.</p>
+
+      <div class="section-head" style="margin-top:56px;">
+        <h2 data-i18n="ongoingHeading">Ongoing support plans</h2>
+        <p data-i18n="ongoingSub">For clients who've finished initial training and want continued help, on their own terms.</p>
+      </div>
+      <div class="pricing">
+        <div class="plan">
+          <h3 data-i18n="plan3Title">On-Call AI Assistance</h3>
+          <p class="price">$150 CAD <span data-i18n="perBlock">/ 5-Pass Block</span></p>
+          <p class="alt-price" data-i18n="plan3Alt">or $120 CAD / hour, drawn down in 15-minute increments</p>
+          <ul>
+            <li data-i18n="plan3Li1">Best for reassurance without a monthly bill</li>
+            <li data-i18n="plan3Li2">Prepaid "Support Block": 5 micro-sessions, up to 15 minutes each</li>
+            <li data-i18n="plan3Li3">Reach out by phone, email, or WhatsApp when something comes up</li>
+            <li data-i18n="plan3Li4">Prompt tweaks, summary troubleshooting, "is this email safe?" checks</li>
+          </ul>
+          <a class="btn btn-quiet" href="#book" data-i18n="plan3Btn">Ask about a Support Block</a>
+        </div>
+        <div class="plan featured">
+          <h3 data-i18n="plan4Title">Monthly AI Advisory &amp; Support Retainer</h3>
+          <p class="price">$89 CAD <span data-i18n="perMonth">/ month</span></p>
+          <p class="alt-price" data-i18n="plan4Alt">Personal/Retiree — or $175 CAD / month, Professional/Business</p>
+          <ul>
+            <li data-i18n="plan4Li1">One 45-minute monthly strategy call</li>
+            <li data-i18n="plan4Li2">Priority email &amp; messaging response within 24 hours</li>
+            <li data-i18n="plan4Li3">Quick prompt polish, document checks, privacy questions covered</li>
+            <li data-i18n="plan4Li4">Exclusive monthly "Prompt Cheat Sheet" newsletter</li>
+          </ul>
+          <a class="btn btn-primary" href="#book" data-i18n="plan4Btn">Start the retainer</a>
+        </div>
+        <div class="plan">
+          <h3 data-i18n="plan5Title">Daily Executive Concierge Support</h3>
+          <p class="price">$450 CAD <span data-i18n="perMonth">/ month</span></p>
+          <ul>
+            <li data-i18n="plan5Li1">Same-day priority support during business hours</li>
+            <li data-i18n="plan5Li2">Direct messaging, SMS, WhatsApp, or phone</li>
+            <li data-i18n="plan5Li3">Real-time prompt creation and on-the-fly email refinement</li>
+            <li data-i18n="plan5Li4">Continuous privacy verification</li>
+            <li data-i18n="plan5Li5">Weekly 30-minute workflow check-in</li>
+            <li data-i18n="plan5Li6">Capped at 1–2 quick queries per business day</li>
+          </ul>
+          <a class="btn btn-quiet" href="#book" data-i18n="plan5Btn">Ask about Concierge Support</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="trust">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 data-i18n="trustHeading">Why clients trust us with this</h2>
+        <p data-i18n="trustSub">Trust is the single biggest factor when choosing a coach. Here's how we earn it.</p>
+      </div>
+      <div class="trust-list">
+        <div class="trust-item">
+          <h3 data-i18n="trust1Title">Safety &amp; privacy first</h3>
+          <p data-i18n="trust1Text">Every curriculum starts with turning off data-training settings, what never to type into an AI tool, and how to spot AI-generated phishing and voice scams.</p>
+        </div>
+        <div class="trust-item">
+          <h3 data-i18n="trust2Title">A real local Montreal anchor</h3>
+          <p data-i18n="trust2Text">In-person, in-home sessions are available. We're a .ca business with a verified Google Business Profile and a local map pin — no faceless offshore platform.</p>
+        </div>
+        <div class="trust-item">
+          <h3 data-i18n="trust3Title">Zero jargon, always</h3>
+          <p data-i18n="trust3Text">We say "asking the right questions," not "prompt engineering." We say "digital assistant," not "generative AI."</p>
+        </div>
+        <div class="trust-item">
+          <h3 data-i18n="trust4Title">Printable, physical takeaways</h3>
+          <p data-i18n="trust4Text">Every session ends with a large-font, printed step-by-step guide, plus a laminated cheat sheet — a tangible safety net you can keep by your desk.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PAGE 3: ABOUT ME & CONTACT ===================== -->
+  <section class="section-band" id="about">
+    <div class="wrap about-grid">
+      <svg class="about-photo" viewBox="0 0 400 460" xmlns="http://www.w3.org/2000/svg">
+        <rect width="400" height="460" rx="16" fill="#EFE6CE"/>
+        <circle cx="200" cy="175" r="90" fill="#3E5C76"/>
+        <circle cx="200" cy="150" r="46" fill="#F5EEDC"/>
+        <path d="M90 400 Q200 300 310 400 L310 460 L90 460 Z" fill="#3E5C76"/>
+      </svg>
+      <div class="about-text">
+        <div class="section-head" style="margin-bottom:20px;">
+          <h2 data-i18n="aboutHeading">About me</h2>
+        </div>
+        <p data-i18n="aboutP1">I'm a licensed engineer with a background in engineering and systems — years spent breaking complex technical problems into clear, manageable steps for people who didn't come from a technical background themselves.</p>
+        <p data-i18n="aboutP2">That's exactly the skill I bring to AI coaching. I've found that life experience is the real advantage in learning to work with these tools well: knowing what you actually need to get done matters more than knowing the underlying technology.</p>
+        <div class="guarantee">
+          <p><strong data-i18n="guaranteeLabel">The patience guarantee:</strong> <span data-i18n="guaranteeText">every session moves strictly at your pace. Zero rush, zero tech jargon, and we'll go over anything as many times as you need.</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <h2 data-i18n="testimonialsHeading">What clients say</h2>
+      </div>
+      <div class="testimonials">
+        <div class="testimonial">
+          <blockquote data-i18n="t1Quote">"I run a small business and was drowning in email. Now I draft replies in minutes. Worth every dollar."</blockquote>
+          <cite data-i18n="t1Cite">Jean-François T., business owner</cite>
+        </div>
+        <div class="testimonial">
+          <blockquote data-i18n="t2Quote">"A caller claimed to be my bank. Because of what I'd learned, I knew it was a scam and hung up immediately."</blockquote>
+          <cite data-i18n="t2Cite">Carole D., retiree</cite>
+        </div>
+        <div class="testimonial">
+          <blockquote data-i18n="t3Quote">"Nobody rushed me, and the sessions were fully in French. I finally feel in control of my computer."</blockquote>
+          <cite data-i18n="t3Cite">Lucille B.</cite>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-band" id="faq">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 data-i18n="faqHeading">Common questions</h2>
+      </div>
+      <div class="faq">
+        <details>
+          <summary><span data-i18n="faq1Q">Are sessions available in French?</span><span class="icon">+</span></summary>
+          <p data-i18n="faq1A">Yes — every package is fully offered in English or Français, based on your preference. Just let us know when you book.</p>
+        </details>
+        <details>
+          <summary><span data-i18n="faq2Q">Can sessions happen in person?</span><span class="icon">+</span></summary>
+          <p data-i18n="faq2A">Yes, for clients in Montreal. The Everyday AI for Personal Life &amp; Safety package offers in-home visits, or you can meet by Zoom — whichever feels more comfortable.</p>
+        </details>
+        <details>
+          <summary><span data-i18n="faq3Q">Is this tax-deductible for my business?</span><span class="icon">+</span></summary>
+          <p data-i18n="faq3A">Upskilling and consulting expenses are generally tax-deductible for corporate accounts and sole proprietors. We're happy to provide a receipt formatted for your accountant — confirm specifics with your own tax advisor.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section id="book">
+    <div class="wrap contact-grid">
+      <div class="contact-info">
+        <h3 data-i18n="bookHeading">Book your free 15-minute discovery call</h3>
+        <p data-i18n="bookSub">Tell us a bit about what you're hoping to accomplish, and we'll follow up to find a time that works — by phone, Zoom, or in person in Montreal.</p>
+        <a class="big-phone" href="tel:+15145550143">(514) 555-0143</a>
+        <p style="margin-top:14px;">info@neo-ai.ca</p>
+        <p data-i18n="bookAddress">Montreal, Quebec — in-person &amp; online</p>
+      </div>
+      <form class="booking" onsubmit="return false;">
+        <div class="field">
+          <label for="name" data-i18n="formNameLabel">Name</label>
+          <input id="name" type="text" name="name" autocomplete="name" required>
+        </div>
+        <div class="field">
+          <label for="email" data-i18n="formEmailLabel">Email</label>
+          <input id="email" type="email" name="email" autocomplete="email" required>
+        </div>
+        <div class="field">
+          <label for="phone" data-i18n="formPhoneLabel">Phone number</label>
+          <input id="phone" type="tel" name="phone" autocomplete="tel" required>
+        </div>
+        <div class="field">
+          <label data-i18n="formLangLabel">Language preference</label>
+          <div class="radio-row">
+            <label><input type="radio" name="language" value="english" checked> <span data-i18n="formLangEnglish">English</span></label>
+            <label><input type="radio" name="language" value="french"> <span data-i18n="formLangFrench">Français</span></label>
+          </div>
+        </div>
+        <div class="field">
+          <label for="objective" data-i18n="formObjectiveLabel">What would you like help with?</label>
+          <textarea id="objective" name="objective" data-i18n-ph="formObjectivePlaceholder" placeholder="e.g. Email automation for my business, or planning a trip safely online"></textarea>
+        </div>
+        <button class="btn btn-primary" type="submit" data-i18n="formSubmit">Request my free discovery call</button>
+      </form>
+    </div>
+  </section>
+
+  <section class="closing">
+    <div class="wrap">
+      <h2 data-i18n="closingHeading">Your first conversation costs nothing but 15 minutes.</h2>
+      <p data-i18n="closingSub">Call, email, or use the form above — a real person will get back to you within one business day.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" href="tel:+15145550143" data-i18n="ctaCallPhone">Call (514) 555-0143</a>
+        <a class="btn btn-quiet" href="mailto:info@neo-ai.ca" data-i18n="closingEmailBtn">Email info@neo-ai.ca</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap footer-grid">
+    <div>
+      <div class="logo-foot">NEO AI Coaching</div>
+      <p data-i18n="footerTagline">Practical, plain-English AI coaching for work and everyday life, in Montreal and online, in English &amp; Français.</p>
+      <a class="big-phone" href="tel:+15145550143" style="display:block;margin-top:16px;">(514) 555-0143</a>
+    </div>
+    <div>
+      <h4 data-i18n="footerSiteHeading">Site</h4>
+      <ul>
+        <li><a href="#home" data-i18n="navHome">Home</a></li>
+        <li><a href="#services" data-i18n="navServices">Services &amp; Pricing</a></li>
+        <li><a href="#about" data-i18n="navAbout">About &amp; Contact</a></li>
+        <li><a href="#book" data-i18n="footerBookLink">Book a Free Call</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 data-i18n="footerReachHeading">Reach us</h4>
+      <ul>
+        <li><a href="mailto:info@neo-ai.ca">info@neo-ai.ca</a></li>
+        <li data-i18n="footerCity">Montreal, Quebec</li>
+        <li data-i18n="footerMode">In-person &amp; online</li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">
+    <span data-i18n="footerBottom">&copy; 2026 NEO AI Coaching. Services fully offered in English &amp; Français.</span>
+  </div>
+</footer>
+
+
+<script>
+(function () {
+  var canvas = document.getElementById('matrixCanvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var chars = '01';
+  var fontSize = 16;
+  var columns, drops, dpr;
+
+  function resize() {
+    dpr = window.devicePixelRatio || 1;
+    var w = window.innerWidth;
+    var h = window.innerHeight;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    columns = Math.floor(w / fontSize);
+    drops = new Array(columns).fill(0).map(function () {
+      return Math.floor(Math.random() * -40);
+    });
+  }
+
+  function drawFrame() {
+    var w = window.innerWidth;
+    var h = window.innerHeight;
+    ctx.clearRect(0, 0, w, h);
+    ctx.font = fontSize + 'px monospace';
+    ctx.fillStyle = '#636C73';
+    for (var i = 0; i < drops.length; i++) {
+      var text = chars[Math.floor(Math.random() * chars.length)];
+      var x = i * fontSize;
+      var y = drops[i] * fontSize;
+      ctx.fillText(text, x, y);
+      if (y > h && Math.random() > 0.975) {
+        drops[i] = 0;
+      }
+      drops[i]++;
+    }
+  }
+
+  function drawStatic() {
+    var w = window.innerWidth;
+    var h = window.innerHeight;
+    ctx.clearRect(0, 0, w, h);
+    ctx.font = fontSize + 'px monospace';
+    ctx.fillStyle = '#636C73';
+    var rows = Math.ceil(h / fontSize) + 1;
+    for (var i = 0; i < columns; i++) {
+      for (var j = 0; j < rows; j++) {
+        if (Math.random() > 0.86) {
+          var text = chars[Math.floor(Math.random() * chars.length)];
+          ctx.fillText(text, i * fontSize, j * fontSize);
+        }
+      }
+    }
+  }
+
+  var resizeTimer;
+  window.addEventListener('resize', function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () {
+      resize();
+      if (reduceMotion) drawStatic();
+    }, 150);
+  });
+
+  resize();
+
+  if (reduceMotion) {
+    drawStatic();
+  } else {
+    setInterval(drawFrame, 60);
+  }
+})();
+</script>
+
+<script>
+(function () {
+  var translations = {
+    logoTag: { en: "AI Coaching, Montreal & Online", fr: "Coaching en IA, Montréal et en ligne" },
+    navHome: { en: "Home", fr: "Accueil" },
+    navServices: { en: "Services & Pricing", fr: "Services et tarifs" },
+    navAbout: { en: "About & Contact", fr: "À propos et contact" },
+    phoneLabel: { en: "Call:", fr: "Appelez :" },
+    headerCta: { en: "Free 15-Min Call", fr: "Appel gratuit de 15 min" },
+
+    heroH1: { en: "Practical, plain-English AI coaching for work and everyday life.", fr: "Un coaching en IA pratique et en langage clair, pour le travail et la vie quotidienne." },
+    heroSub: { en: "Patient, 1-on-1 guidance designed for everyone — in Montreal & online — led by a licensed engineer you can trust. Master tools like ChatGPT, Claude, Gemini, and Copilot safely and confidently.", fr: "Un accompagnement patient et individuel, conçu pour tout le monde — à Montréal et en ligne — animé par un ingénieur agréé en qui vous pouvez avoir confiance. Maîtrisez des outils comme ChatGPT, Claude, Gemini et Copilot, en toute sécurité et en toute confiance." },
+    ctaPrimary: { en: "Book a Free 15-Minute Consultation", fr: "Réservez une consultation gratuite de 15 minutes" },
+    ctaCallPhone: { en: "Call (514) 555-0143", fr: "Appelez le (514) 555-0143" },
+    badgeBilingual: { en: "Services fully offered in English & Français", fr: "Services offerts entièrement en anglais et en français" },
+    badgeEngineer: { en: "Taught by a licensed engineer", fr: "Enseigné par un ingénieur agréé" },
+
+    pillarsHeading: { en: "Three reasons clients start with us", fr: "Trois raisons pour lesquelles nos clients nous choisissent" },
+    pillar1Title: { en: "Workplace upskilling", fr: "Perfectionnement professionnel" },
+    pillar1Text: { en: "Automate emails, summarize complex documents, and save hours every week — without needing an IT background.", fr: "Automatisez vos courriels, résumez des documents complexes et économisez des heures chaque semaine — sans formation en informatique." },
+    pillar2Title: { en: "Personal convenience", fr: "Commodité personnelle" },
+    pillar2Text: { en: "Plan vacations, organize projects, and simplify daily admin using tools that used to feel out of reach.", fr: "Planifiez des vacances, organisez des projets et simplifiez vos tâches administratives grâce à des outils qui semblaient auparavant inaccessibles." },
+    pillar3Title: { en: "Safety & privacy first", fr: "La sécurité et la confidentialité d'abord" },
+    pillar3Text: { en: "Learn how to protect your personal data, adjust privacy settings, and avoid online scams — before anything else.", fr: "Apprenez avant tout à protéger vos données personnelles, à ajuster vos paramètres de confidentialité et à éviter les arnaques en ligne." },
+
+    whoHeading: { en: "Built around two kinds of clients", fr: "Conçu pour deux types de clients" },
+    whoSub: { en: "Whether you're still working or fully retired, the coaching adapts to what matters to you.", fr: "Que vous soyez encore actif professionnellement ou entièrement à la retraite, le coaching s'adapte à ce qui compte pour vous." },
+    audience1Tag: { en: "FOR THE WORKPLACE", fr: "POUR LE TRAVAIL" },
+    audience1Title: { en: "Working professionals & business owners", fr: "Professionnels et propriétaires d'entreprise" },
+    audience1Li1: { en: "Career preservation and staying current", fr: "Rester à jour et préserver sa carrière" },
+    audience1Li2: { en: "Reducing workload with email & report automation", fr: "Réduire la charge de travail grâce à l'automatisation des courriels et des rapports" },
+    audience1Li3: { en: "Document summarization", fr: "Résumé de documents" },
+    audience1Li4: { en: "Tools: ChatGPT, Claude, Gemini, Microsoft Copilot", fr: "Outils : ChatGPT, Claude, Gemini, Microsoft Copilot" },
+    audience2Tag: { en: "FOR EVERYDAY LIFE", fr: "POUR LA VIE QUOTIDIENNE" },
+    audience2Title: { en: "Active adults & retirees", fr: "Adultes actifs et retraités" },
+    audience2Li1: { en: "Personal convenience and daily admin", fr: "Commodité personnelle et tâches administratives" },
+    audience2Li2: { en: "Travel planning and creative hobbies", fr: "Planification de voyages et loisirs créatifs" },
+    audience2Li3: { en: "Privacy settings and scam protection, above all", fr: "Paramètres de confidentialité et protection contre les arnaques, avant tout" },
+
+    servicesHeading: { en: "Services & pricing", fr: "Services et tarifs" },
+    servicesSub: { en: "Clear, outcome-based packages — never open-ended, confusing hourly lessons. Every package includes personalized prompt cheat sheets, a post-session summary, and ongoing email support.", fr: "Des forfaits clairs et axés sur les résultats — jamais de leçons horaires ouvertes et confuses. Chaque forfait comprend des aide-mémoire personnalisés, un résumé après chaque séance et un soutien continu par courriel." },
+
+    plan1Title: { en: "Workplace Productivity Fast-Track", fr: "Accélérateur de productivité au travail" },
+    perHour: { en: "/ hour", fr: "/ heure" },
+    plan1Alt: { en: "or 3-session starter package: $325 CAD", fr: "ou forfait de démarrage de 3 séances : 325 $ CAD" },
+    plan1Li1: { en: "Email drafting", fr: "Rédaction de courriels" },
+    plan1Li2: { en: "Multi-page PDF summarization", fr: "Résumé de documents PDF de plusieurs pages" },
+    plan1Li3: { en: "Meeting agenda creation", fr: "Création d'ordres du jour de réunion" },
+    plan1Li4: { en: "Basic workflow automation", fr: "Automatisation de base des flux de travail" },
+    plan1Li5: { en: "Report writing", fr: "Rédaction de rapports" },
+    plan1Li6: { en: "1-on-1, Zoom or in-person", fr: "Séances individuelles, sur Zoom ou en personne" },
+    bookPackage: { en: "Book this package", fr: "Réserver ce forfait" },
+
+    plan2Title: { en: "Everyday AI for Personal Life & Safety", fr: "L'IA au quotidien pour la vie personnelle et la sécurité" },
+    plan2Alt: { en: "or 3-session starter package: $200 CAD", fr: "ou forfait de démarrage de 3 séances : 200 $ CAD" },
+    plan2Li1: { en: "Detailed vacation itinerary creation", fr: "Création d'itinéraires de voyage détaillés" },
+    plan2Li2: { en: "Letter writing", fr: "Rédaction de lettres" },
+    plan2Li3: { en: "Medical & financial document summarization", fr: "Résumé de documents médicaux et financiers" },
+    plan2Li4: { en: "Hobby assistance", fr: "Aide pour les loisirs" },
+    plan2Li5: { en: "Privacy & Scam Protection 101 (included every time)", fr: "Notions de base sur la confidentialité et les arnaques (incluses à chaque séance)" },
+    plan2Li6: { en: "1-on-1, in-home in Montreal or Zoom", fr: "Séances individuelles, à domicile à Montréal ou sur Zoom" },
+
+    taxNote: { en: "Corporate tax note: upskilling and consulting expenses are generally tax-deductible for corporate accounts and sole proprietors. Ask us for a receipt formatted for your accountant.", fr: "Remarque fiscale : les frais de perfectionnement et de consultation sont généralement déductibles d'impôt pour les comptes corporatifs et les travailleurs autonomes. Demandez-nous un reçu adapté pour votre comptable." },
+
+    ongoingHeading: { en: "Ongoing support plans", fr: "Forfaits de soutien continu" },
+    ongoingSub: { en: "For clients who've finished initial training and want continued help, on their own terms.", fr: "Pour les clients ayant terminé leur formation initiale et souhaitant un soutien continu, selon leurs propres besoins." },
+
+    plan3Title: { en: "On-Call AI Assistance", fr: "Assistance IA sur demande" },
+    perBlock: { en: "/ 5-Pass Block", fr: "/ bloc de 5 passes" },
+    plan3Alt: { en: "or $120 CAD / hour, drawn down in 15-minute increments", fr: "ou 120 $ CAD / heure, décomptée par tranches de 15 minutes" },
+    plan3Li1: { en: "Best for reassurance without a monthly bill", fr: "Idéal pour être rassuré sans facture mensuelle" },
+    plan3Li2: { en: 'Prepaid "Support Block": 5 micro-sessions, up to 15 minutes each', fr: '« Bloc de soutien » prépayé : 5 micro-séances, jusqu\'à 15 minutes chacune' },
+    plan3Li3: { en: "Reach out by phone, email, or WhatsApp when something comes up", fr: "Contactez-nous par téléphone, courriel ou WhatsApp lorsqu'un besoin se présente" },
+    plan3Li4: { en: 'Prompt tweaks, summary troubleshooting, "is this email safe?" checks', fr: '« Cet courriel est-il sécuritaire? »' },
+    plan3Btn: { en: "Ask about a Support Block", fr: "Renseignez-vous sur un bloc de soutien" },
+
+    plan4Title: { en: "Monthly AI Advisory & Support Retainer", fr: "Forfait mensuel de conseil et de soutien en IA" },
+    perMonth: { en: "/ month", fr: "/ mois" },
+    plan4Alt: { en: "Personal/Retiree — or $175 CAD / month, Professional/Business", fr: "Particulier/Retraité — ou 175 $ CAD / mois, Professionnel/Entreprise" },
+    plan4Li1: { en: "One 45-minute monthly strategy call", fr: "Un appel stratégique mensuel de 45 minutes" },
+    plan4Li2: { en: "Priority email & messaging response within 24 hours", fr: "Réponse prioritaire par courriel et messagerie sous 24 heures" },
+    plan4Li3: { en: "Quick prompt polish, document checks, privacy questions covered", fr: "Peaufinage rapide de requêtes, vérification de documents, questions de confidentialité couvertes" },
+    plan4Li4: { en: 'Exclusive monthly "Prompt Cheat Sheet" newsletter', fr: '« Aide-mémoire » mensuel exclusif par infolettre' },
+    plan4Btn: { en: "Start the retainer", fr: "Démarrer le forfait" },
+
+    plan5Title: { en: "Daily Executive Concierge Support", fr: "Soutien de conciergerie exécutif quotidien" },
+    plan5Li1: { en: "Same-day priority support during business hours", fr: "Soutien prioritaire le jour même pendant les heures ouvrables" },
+    plan5Li2: { en: "Direct messaging, SMS, WhatsApp, or phone", fr: "Messagerie directe, SMS, WhatsApp ou téléphone" },
+    plan5Li3: { en: "Real-time prompt creation and on-the-fly email refinement", fr: "Création de requêtes en temps réel et amélioration instantanée de courriels" },
+    plan5Li4: { en: "Continuous privacy verification", fr: "Vérification continue de la confidentialité" },
+    plan5Li5: { en: "Weekly 30-minute workflow check-in", fr: "Suivi hebdomadaire de 30 minutes sur les flux de travail" },
+    plan5Li6: { en: "Capped at 1–2 quick queries per business day", fr: "Limité à 1 ou 2 demandes rapides par jour ouvrable" },
+    plan5Btn: { en: "Ask about Concierge Support", fr: "Renseignez-vous sur le soutien de conciergerie" },
+
+    trustHeading: { en: "Why clients trust us with this", fr: "Pourquoi nos clients nous font confiance" },
+    trustSub: { en: "Trust is the single biggest factor when choosing a coach. Here's how we earn it.", fr: "La confiance est le facteur le plus important dans le choix d'un accompagnateur. Voici comment nous la méritons." },
+    trust1Title: { en: "Safety & privacy first", fr: "La sécurité et la confidentialité d'abord" },
+    trust1Text: { en: "Every curriculum starts with turning off data-training settings, what never to type into an AI tool, and how to spot AI-generated phishing and voice scams.", fr: "Chaque formation commence par désactiver les paramètres d'entraînement des données, apprendre ce qu'il ne faut jamais saisir dans un outil d'IA, et reconnaître l'hameçonnage et les arnaques vocales générés par l'IA." },
+    trust2Title: { en: "A real local Montreal anchor", fr: "Un véritable ancrage local à Montréal" },
+    trust2Text: { en: "In-person, in-home sessions are available. We're a .ca business with a verified Google Business Profile and a local map pin — no faceless offshore platform.", fr: "Des séances en personne, à domicile, sont disponibles. Nous sommes une entreprise .ca avec une fiche Google Entreprise vérifiée et une épingle locale sur la carte — pas de plateforme anonyme à l'étranger." },
+    trust3Title: { en: "Zero jargon, always", fr: "Aucun jargon, toujours" },
+    trust3Text: { en: 'We say "asking the right questions," not "prompt engineering." We say "digital assistant," not "generative AI."', fr: '« poser les bonnes questions », pas « ingénierie de requêtes ». « assistant numérique », pas « IA générative ».' },
+    trust4Title: { en: "Printable, physical takeaways", fr: "Des documents imprimables à conserver" },
+    trust4Text: { en: "Every session ends with a large-font, printed step-by-step guide, plus a laminated cheat sheet — a tangible safety net you can keep by your desk.", fr: "Chaque séance se termine par un guide étape par étape imprimé en gros caractères, ainsi qu'un aide-mémoire plastifié — un filet de sécurité concret à garder près de votre bureau." },
+
+    aboutHeading: { en: "About me", fr: "À propos de moi" },
+    aboutP1: { en: "I'm a licensed engineer with a background in engineering and systems — years spent breaking complex technical problems into clear, manageable steps for people who didn't come from a technical background themselves.", fr: "Je suis ingénieur agréé, avec une formation en ingénierie et en systèmes — des années passées à décomposer des problèmes techniques complexes en étapes claires et faciles à suivre pour des personnes qui n'ont pas de formation technique." },
+    aboutP2: { en: "That's exactly the skill I bring to AI coaching. I've found that life experience is the real advantage in learning to work with these tools well: knowing what you actually need to get done matters more than knowing the underlying technology.", fr: "C'est exactement ce que j'apporte au coaching en IA. J'ai constaté que l'expérience de vie est le véritable atout pour bien apprendre à utiliser ces outils : savoir ce que vous devez réellement accomplir compte plus que de connaître la technologie sous-jacente." },
+    guaranteeLabel: { en: "The patience guarantee:", fr: "La garantie de patience :" },
+    guaranteeText: { en: "every session moves strictly at your pace. Zero rush, zero tech jargon, and we'll go over anything as many times as you need.", fr: "chaque séance se déroule strictement à votre rythme. Aucune précipitation, aucun jargon technique, et nous reverrons tout autant de fois que nécessaire." },
+
+    testimonialsHeading: { en: "What clients say", fr: "Ce que disent nos clients" },
+    t1Quote: { en: '"I run a small business and was drowning in email. Now I draft replies in minutes. Worth every dollar."', fr: '« Je gère une petite entreprise et j\'étais submergé de courriels. Maintenant, je rédige mes réponses en quelques minutes. Ça vaut chaque dollar. »' },
+    t1Cite: { en: "Jean-François T., business owner", fr: "Jean-François T., propriétaire d'entreprise" },
+    t2Quote: { en: '"A caller claimed to be my bank. Because of what I\'d learned, I knew it was a scam and hung up immediately."', fr: '« Quelqu\'un prétendait être ma banque au téléphone. Grâce à ce que j\'avais appris, j\'ai su que c\'était une arnaque et j\'ai raccroché immédiatement. »' },
+    t2Cite: { en: "Carole D., retiree", fr: "Carole D., retraitée" },
+    t3Quote: { en: '"Nobody rushed me, and the sessions were fully in French. I finally feel in control of my computer."', fr: '« Personne ne m\'a brusquée, et les séances étaient entièrement en français. Je me sens enfin maître de mon ordinateur. »' },
+    t3Cite: { en: "Lucille B.", fr: "Lucille B." },
+
+    faqHeading: { en: "Common questions", fr: "Questions fréquentes" },
+    faq1Q: { en: "Are sessions available in French?", fr: "Les séances sont-elles offertes en français?" },
+    faq1A: { en: "Yes — every package is fully offered in English or Français, based on your preference. Just let us know when you book.", fr: "Oui — chaque forfait est offert entièrement en anglais ou en français, selon votre préférence. Indiquez-le-nous simplement lors de la réservation." },
+    faq2Q: { en: "Can sessions happen in person?", fr: "Les séances peuvent-elles avoir lieu en personne?" },
+    faq2A: { en: "Yes, for clients in Montreal. The Everyday AI for Personal Life & Safety package offers in-home visits, or you can meet by Zoom — whichever feels more comfortable.", fr: "Oui, pour les clients à Montréal. Le forfait « L'IA au quotidien pour la vie personnelle et la sécurité » propose des visites à domicile, ou vous pouvez opter pour Zoom — selon ce qui vous convient le mieux." },
+    faq3Q: { en: "Is this tax-deductible for my business?", fr: "Est-ce déductible d'impôt pour mon entreprise?" },
+    faq3A: { en: "Upskilling and consulting expenses are generally tax-deductible for corporate accounts and sole proprietors. We're happy to provide a receipt formatted for your accountant — confirm specifics with your own tax advisor.", fr: "Les frais de perfectionnement et de consultation sont généralement déductibles d'impôt pour les comptes corporatifs et les travailleurs autonomes. Nous sommes heureux de fournir un reçu adapté pour votre comptable — confirmez les détails avec votre propre conseiller fiscal." },
+
+    bookHeading: { en: "Book your free 15-minute discovery call", fr: "Réservez votre appel découverte gratuit de 15 minutes" },
+    bookSub: { en: "Tell us a bit about what you're hoping to accomplish, and we'll follow up to find a time that works — by phone, Zoom, or in person in Montreal.", fr: "Dites-nous un peu ce que vous espérez accomplir, et nous vous recontacterons pour trouver un moment qui vous convient — par téléphone, sur Zoom ou en personne à Montréal." },
+    bookAddress: { en: "Montreal, Quebec — in-person & online", fr: "Montréal, Québec — en personne et en ligne" },
+    formNameLabel: { en: "Name", fr: "Nom" },
+    formEmailLabel: { en: "Email", fr: "Courriel" },
+    formPhoneLabel: { en: "Phone number", fr: "Numéro de téléphone" },
+    formLangLabel: { en: "Language preference", fr: "Langue préférée" },
+    formLangEnglish: { en: "English", fr: "Anglais" },
+    formLangFrench: { en: "Français", fr: "Français" },
+    formObjectiveLabel: { en: "What would you like help with?", fr: "Avec quoi aimeriez-vous être aidé?" },
+    formObjectivePlaceholder: { en: "e.g. Email automation for my business, or planning a trip safely online", fr: "p. ex. automatisation des courriels, ou planifier un voyage en toute sécurité en ligne" },
+    formSubmit: { en: "Request my free discovery call", fr: "Demander mon appel découverte gratuit" },
+
+    closingHeading: { en: "Your first conversation costs nothing but 15 minutes.", fr: "Votre première conversation ne coûte que 15 minutes." },
+    closingSub: { en: "Call, email, or use the form above — a real person will get back to you within one business day.", fr: "Appelez, écrivez-nous ou utilisez le formulaire ci-dessus — une vraie personne vous répondra dans un délai d'un jour ouvrable." },
+    closingEmailBtn: { en: "Email info@neo-ai.ca", fr: "Courriel : info@neo-ai.ca" },
+
+    footerTagline: { en: "Practical, plain-English AI coaching for work and everyday life, in Montreal and online, in English & Français.", fr: "Un coaching en IA pratique et en langage clair, pour le travail et la vie quotidienne, à Montréal et en ligne, en anglais et en français." },
+    footerSiteHeading: { en: "Site", fr: "Site" },
+    footerBookLink: { en: "Book a Free Call", fr: "Réserver un appel gratuit" },
+    footerReachHeading: { en: "Reach us", fr: "Nous joindre" },
+    footerCity: { en: "Montreal, Quebec", fr: "Montréal, Québec" },
+    footerMode: { en: "In-person & online", fr: "En personne et en ligne" },
+    footerBottom: { en: "© 2026 NEO AI Coaching. Services fully offered in English & Français.", fr: "© 2026 NEO AI Coaching. Services offerts entièrement en anglais et en français." }
+  };
+
+  function setLanguage(lang) {
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-i18n]').forEach(function (el) {
+      var key = el.getAttribute('data-i18n');
+      var entry = translations[key];
+      if (entry && entry[lang]) el.textContent = entry[lang];
+    });
+    document.querySelectorAll('[data-i18n-ph]').forEach(function (el) {
+      var key = el.getAttribute('data-i18n-ph');
+      var entry = translations[key];
+      if (entry && entry[lang]) el.setAttribute('placeholder', entry[lang]);
+    });
+    var enBtn = document.getElementById('langEnBtn');
+    var frBtn = document.getElementById('langFrBtn');
+    if (enBtn && frBtn) {
+      enBtn.classList.toggle('active', lang === 'en');
+      frBtn.classList.toggle('active', lang === 'fr');
+    }
+  }
+
+  var enBtn = document.getElementById('langEnBtn');
+  var frBtn = document.getElementById('langFrBtn');
+  if (enBtn) enBtn.addEventListener('click', function () { setLanguage('en'); });
+  if (frBtn) frBtn.addEventListener('click', function () { setLanguage('fr'); });
+})();
+</script>
+
+</body>
+</html>
