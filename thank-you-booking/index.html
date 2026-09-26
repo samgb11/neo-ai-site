@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Booking Confirmed — NEO AI Coaching</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #24333F;
+    --ink-soft: #4A5A68;
+    --paper: #FBF8F0;
+    --paper-warm: #F5EEDC;
+    --line: #DDD2B0;
+    --teal: #3E5C76;
+    --teal-deep: #2A425A;
+    --clay: #C9932E;
+    --clay-deep: #A6741E;
+    --sand: #EFE6CE;
+    --focus: #1E5F92;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); min-height: 100%; }
+  body {
+    font-family: "Source Sans 3", -apple-system, "Segoe UI", sans-serif;
+    font-size: 19px; line-height: 1.6;
+    display: flex; align-items: center; justify-content: center;
+    min-height: 100vh; padding: 28px;
+  }
+  .card {
+    max-width: 560px; width: 100%;
+    background: var(--paper-warm); border: 1px solid var(--line); border-radius: 20px;
+    padding: 48px 36px; text-align: center;
+  }
+  .check {
+    width: 56px; height: 56px; margin: 0 auto 20px; border-radius: 50%;
+    background: var(--sand); display: flex; align-items: center; justify-content: center;
+  }
+  h1 {
+    font-family: "Source Serif 4", Georgia, serif; font-weight: 700;
+    font-size: clamp(26px, 4vw, 32px); color: var(--teal-deep); margin: 0 0 14px;
+  }
+  p { margin: 0 0 10px; color: var(--ink-soft); }
+  .btn {
+    display: inline-block; margin-top: 26px; font-weight: 700; font-size: 17px;
+    text-decoration: none; padding: 13px 24px; border-radius: 8px;
+    background: var(--clay); color: #FFF8EE;
+  }
+  .btn:hover { background: var(--clay-deep); }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="check" aria-hidden="true">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2A425A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+    </div>
+    <h1>Your call is booked!</h1>
+    <p>Thanks for scheduling your free 15-minute discovery call. You'll receive a confirmation email from Calendly with the details.</p>
+    <p>If you need to reschedule or have any questions before then, just reply to that email or reach us directly.</p>
+    <a class="btn" href="/neo-ai-site/">Back to home</a>
+  </div>
+</body>
+</html>
