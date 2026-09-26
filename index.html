@@ -469,32 +469,12 @@
         <p style="margin-top:14px;">info@neo-ai.ca</p>
         <p data-i18n="bookAddress">Montreal, Quebec — in-person &amp; online</p>
       </div>
-      <form class="booking" onsubmit="return false;">
-        <div class="field">
-          <label for="name" data-i18n="formNameLabel">Name</label>
-          <input id="name" type="text" name="name" autocomplete="name" required>
-        </div>
-        <div class="field">
-          <label for="email" data-i18n="formEmailLabel">Email</label>
-          <input id="email" type="email" name="email" autocomplete="email" required>
-        </div>
-        <div class="field">
-          <label for="phone" data-i18n="formPhoneLabel">Phone number</label>
-          <input id="phone" type="tel" name="phone" autocomplete="tel" required>
-        </div>
-        <div class="field">
-          <label data-i18n="formLangLabel">Language preference</label>
-          <div class="radio-row">
-            <label><input type="radio" name="language" value="english" checked> <span data-i18n="formLangEnglish">English</span></label>
-            <label><input type="radio" name="language" value="french"> <span data-i18n="formLangFrench">Français</span></label>
-          </div>
-        </div>
-        <div class="field">
-          <label for="objective" data-i18n="formObjectiveLabel">What would you like help with?</label>
-          <textarea id="objective" name="objective" data-i18n-ph="formObjectivePlaceholder" placeholder="e.g. Email automation for my business, or planning a trip safely online"></textarea>
-        </div>
-        <button class="btn btn-primary" type="submit" data-i18n="formSubmit">Request my free discovery call</button>
-      </form>
+      <div>
+        <!-- Calendly inline widget begin -->
+        <div class="calendly-inline-widget" data-url="https://calendly.com/sam-neo-ai/30min?background_color=fbf8f0&text_color=24333f&primary_color=c9932e" style="min-width:280px; height:680px; border-radius:16px; overflow:hidden; border:1px solid var(--line);"></div>
+        <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+        <!-- Calendly inline widget end -->
+      </div>
     </div>
   </section>
 
