@@ -472,13 +472,11 @@
         <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
         <!-- Calendly inline widget end -->
         <script type="text/javascript">
-          // Update the URL when a Calendly booking is confirmed, so Google Ads
-          // can be set up with a URL-based conversion goal pointing at /thank-you-booking
+          // Redirect to a real /thank-you-booking page when a Calendly booking is confirmed,
+          // so Google Ads can track it as a URL-based conversion goal
           window.addEventListener('message', function (e) {
             if (e.data && e.data.event && e.data.event === 'calendly.event_scheduled') {
-              if (window.history && window.history.pushState) {
-                window.history.pushState({}, '', '/thank-you-booking');
-              }
+              window.location.href = '/thank-you-booking';
             }
           });
         </script>
